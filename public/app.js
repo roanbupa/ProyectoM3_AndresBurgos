@@ -1,38 +1,38 @@
-import { messages } from "./chat.js";
-
 const app = document.querySelector("#app");
 
+// estado global del chat
+const messages = []; // guarda conversación
+
+// navegar sin recargar página
 function navigate(url) {
-
-  history.pushState({}, "", url); // cambia url
-
+  history.pushState({}, "", url); // cambia URL
   router(); // renderiza vista
 }
 
+// click en links SPA
 document.addEventListener("click", (e) => {
+  const link = e.target.closest("[data-link]");
 
-  if (e.target.matches("[data-link]")) {
-
+  if (link) {
     e.preventDefault();
-
-    navigate(e.target.href);
+    navigate(link.getAttribute("href")); // navegación segura
   }
 });
 
-window.addEventListener("popstate", router); // back y forward
+// back / forward navegador
+window.addEventListener("popstate", router);
 
-async function router() {
-
+// router principal
+function router() {
   const path = location.pathname;
 
-  if (path === "/" || path === "/home") {
+  app.innerHTML = ""; // limpia vista antes de renderizar
 
+  if (path === "/" || path === "/home") {
     app.innerHTML = `
       <section>
         <h2>Bienvenido</h2>
-
         <p>Habla con Geralt de Rivia.</p>
-
         <button id="go-chat">Comenzar</button>
       </section>
     `;
@@ -40,43 +40,44 @@ async function router() {
     document.querySelector("#go-chat")
       ?.addEventListener("click", () => navigate("/chat"));
 
-  } else if (path === "/chat") {
+    return;
+  }
 
+  if (path === "/chat") {
     renderChat();
+    return;
+  }
 
-  } else if (path === "/about") {
-
+  if (path === "/about") {
     app.innerHTML = `
       <section>
         <h2>About</h2>
-
         <p>Proyecto Integrador M3.</p>
-
         <p>Personaje: Geralt de Rivia.</p>
       </section>
     `;
+    return;
   }
+
+  // fallback (404 SPA)
+  app.innerHTML = `
+    <section>
+      <h2>404</h2>
+      <p>Página no encontrada</p>
+    </section>
+  `;
 }
 
+// render chat UI
 function renderChat() {
-
   app.innerHTML = `
-  
     <section class="chat-container">
 
       <div id="messages"></div>
 
       <div class="input-area">
-
-        <input
-          id="message-input"
-          placeholder="Escribe..."
-        >
-
-        <button id="send-btn">
-          Enviar
-        </button>
-
+        <input id="message-input" placeholder="Escribe..." />
+        <button id="send-btn">Enviar</button>
       </div>
 
       <p id="typing"></p>
@@ -86,25 +87,18 @@ function renderChat() {
 
   renderMessages();
 
-  document
-    .querySelector("#send-btn")
-    .addEventListener("click", sendMessage);
+  document.querySelector("#send-btn")
+    ?.addEventListener("click", sendMessage);
 
-  document
-    .querySelector("#message-input")
-    .addEventListener("keypress", (e) => {
-
-      if (e.key === "Enter") {
-
-        sendMessage();
-      }
+  document.querySelector("#message-input")
+    ?.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
     });
 }
 
+// enviar mensaje
 async function sendMessage() {
-
   const input = document.querySelector("#message-input");
-
   const text = input.value.trim();
 
   if (!text) return;
@@ -116,25 +110,16 @@ async function sendMessage() {
   });
 
   renderMessages();
-
   input.value = "";
 
   document.querySelector("#typing").textContent =
     "Geralt está escribiendo...";
 
   try {
-
     const response = await fetch("/api/functions", {
-
       method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        messages
-      })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages })
     });
 
     const data = await response.json();
@@ -145,45 +130,35 @@ async function sendMessage() {
       timestamp: new Date().toLocaleTimeString()
     });
 
-    renderMessages();
-
   } catch {
-
     messages.push({
       role: "assistant",
       text: "No puedo responder ahora.",
       timestamp: new Date().toLocaleTimeString()
     });
-
-    renderMessages();
-
-  } finally {
-
-    document.querySelector("#typing").textContent = "";
   }
+
+  renderMessages();
+  document.querySelector("#typing").textContent = "";
 }
 
+// render mensajes
 function renderMessages() {
-
-  const container =
-    document.querySelector("#messages");
+  const container = document.querySelector("#messages");
 
   if (!container) return;
 
   container.innerHTML = messages
     .map(msg => `
       <div class="${msg.role}">
-
         <p>${msg.text}</p>
-
         <small>${msg.timestamp}</small>
-
       </div>
     `)
     .join("");
 
-  container.scrollTop =
-    container.scrollHeight; // auto scroll
+  container.scrollTop = container.scrollHeight;
 }
 
-router();
+// inicializar SPA (IMPORTANTE)
+document.addEventListener("DOMContentLoaded", router);
