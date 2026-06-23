@@ -1,0 +1,17 @@
+{
+  "name": "proyectom3_andresburgos",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@google/genai": "^2.9.0"
+  },
+  "devDependencies": {
+    "vercel": "^54.15.1",
+    "vitest": "^4.1.9",
+    "vite": "^5.0.0"
+  }
+}
