@@ -1,11 +1,11 @@
 export function formatMessage(role, text) {
   return {
-    role, // usuario o asistente
-    text, // contenido
-    timestamp: new Date().toLocaleTimeString() // hora
+    role,
+    text,
+    timestamp: new Date().toISOString()
   };
 }
 
-export function parseGeminiResponse(data) {
-  return data.reply || "No hubo respuesta"; // fallback
+export function getLastMessage(messages) {
+  return messages[messages.length - 1];
 }

@@ -1,11 +1,22 @@
-import { describe, test, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 
-describe("app", () => {
+describe("API chat mock", () => {
 
-  test("ruta home", () => {
+  it("simula respuesta de Gemini", async () => {
+    const fakeResponse = {
+      candidates: [
+        {
+          content: {
+            parts: [{ text: "respuesta de prueba" }]
+          }
+        }
+      ]
+    };
 
-    expect("/home")
-      .toContain("home");
+    const reply =
+      fakeResponse?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    expect(reply).toBe("respuesta de prueba");
   });
 
 });

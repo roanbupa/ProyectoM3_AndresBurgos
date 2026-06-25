@@ -1,47 +1,25 @@
-import { describe, test, expect } from "vitest";
-
-import {
-  formatMessage,
-  parseGeminiResponse
-} from "../src/utils.js";
+import { describe, it, expect } from "vitest";
+import { formatMessage, getLastMessage } from "../public/utils.js";
 
 describe("utils", () => {
 
-  test("crea mensaje", () => {
+  it("formatea un mensaje correctamente", () => {
+    const msg = formatMessage("user", "hola");
 
-    const msg =
-      formatMessage("user", "hola");
-
-    expect(msg.role)
-      .toBe("user");
+    expect(msg.role).toBe("user");
+    expect(msg.text).toBe("hola");
+    expect(msg.timestamp).toBeDefined();
   });
 
-  test("texto correcto", () => {
+  it("obtiene el último mensaje", () => {
+    const messages = [
+      { text: "1" },
+      { text: "2" }
+    ];
 
-    const msg =
-      formatMessage("user", "hola");
+    const last = getLastMessage(messages);
 
-    expect(msg.text)
-      .toBe("hola");
+    expect(last.text).toBe("2");
   });
 
-  test("parsea respuesta", () => {
-
-    const result =
-      parseGeminiResponse({
-        reply: "hola"
-      });
-
-    expect(result)
-      .toBe("hola");
-  });
-
-  test("fallback", () => {
-
-    const result =
-      parseGeminiResponse({});
-
-    expect(result)
-      .toBe("No hubo respuesta");
-  });
 });
