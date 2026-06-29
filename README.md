@@ -1,47 +1,48 @@
-# Chat con Geralt de Rivia (SPA + Gemini AI)
+# 🧙 Chat con Geralt de Rivia (SPA + Gemini AI)
 
 Proyecto integrador del Módulo 3: Single Page Application que permite chatear con un personaje ficticio utilizando inteligencia artificial (Google Gemini), desplegada en Vercel.
 
 ---
 
-## Demo en vivo
+## 🌐 Demo en vivo
 
-https://proyecto-m3-andres-burgos.vercel.app
+👉 https://proyecto-m3-andres-burgos.vercel.app
 
 ---
 
-## Descripción
+## 📌 Descripción
 
 Esta aplicación permite mantener una conversación en tiempo real con **Geralt de Rivia**, personaje de la saga *The Witcher*, utilizando la API de Google Gemini.
 
-La aplicación está construida como una **SPA (Single Page Application)** con routing manual mediante History API y comunicación segura con una Vercel Serverless Function.
+La aplicación está construida como una **SPA (Single Page Application)** sin frameworks, utilizando routing manual con History API y una Serverless Function para proteger la API key.
 
 ---
 
-## Personaje
+## 🧙 Personaje
 
 **Geralt de Rivia**
+
 - Cazador de monstruos (witcher)
 - Personalidad seria y directa
-- Respuestas cortas y sin rodeos
+- Respuestas cortas y precisas
 - Tono neutral con leves matices sarcásticos
 
 ---
 
-## Tecnologías utilizadas
+## 🧱 Tecnologías utilizadas
 
 - HTML5
 - CSS3 (responsive mobile-first)
 - JavaScript (Vanilla)
 - SPA con History API
+- Fetch API
 - Vercel Serverless Functions
 - Google Gemini API
 - Vitest (testing)
-- Fetch API
 
 ---
 
-## Estructura del proyecto
+## 📁 Estructura del proyecto
 
 
 /api
@@ -66,9 +67,10 @@ README.md
 
 ---
 
-## Instalación y ejecución local
+## ⚙️ Instalación y ejecución local
 
 ### 1. Clonar repositorio
+
 ```bash
 git clone <repo-url>
 cd ProyectoM3_AndresBurgos
@@ -79,40 +81,45 @@ npm install
 Crear archivo .env:
 
 GEMINI_API_KEY=tu_api_key
-4. Ejecutar proyecto en desarrollo
+4. Ejecutar en desarrollo
 vercel dev
- Tests
+🧪 Tests
 npm test
-
 Casos cubiertos:
-
 Formateo de mensajes
 Obtención del último mensaje
 Funciones utilitarias del chat
- Seguridad
-La API Key no está expuesta en el frontend
-Se utiliza una Serverless Function como proxy
+🔐 Seguridad
+La API Key NO está expuesta en el frontend
+Uso de Vercel Serverless Function como proxy seguro
 Variables de entorno configuradas en Vercel
- Routing (SPA)
+🧭 Routing (SPA)
 
-Rutas:
+Rutas disponibles:
 
 /home
 /chat
 /about
 
-Implementado con History API + soporte en Vercel mediante rewrites.
+Implementado con History API y soporte para navegación sin recarga.
 
- Funcionalidades
-Chat con IA en tiempo real
+✨ Funcionalidades
+Chat en tiempo real con IA
+Contexto de conversación persistente
 Indicador de “escribiendo…”
 Scroll automático
-Manejo de errores
+Manejo de errores de API
 UI responsive mobile-first
- Deploy
+Copiar mensajes al portapapeles
+Borrar historial del chat
+Modo claro / oscuro
+🚀 Deploy
 
 Deploy automático en Vercel conectado a GitHub.
 
- Autor
+Cada push a main actualiza la aplicación en producción.
+
+👨‍💻 Autor
+
 Andrés Burgos
 Proyecto desarrollado como parte del Proyecto Integrador M3
