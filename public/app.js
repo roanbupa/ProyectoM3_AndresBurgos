@@ -226,10 +226,3 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.contains("light") ? "🌙" : "☀️";
   });
 });
-
-themeButton.addEventListener("click", () => {
-  document.body.classList.toggle("light");
-
-  themeButton.textContent =
-    document.body.classList.contains("light") ? "🌙" : "☀️";
-});
