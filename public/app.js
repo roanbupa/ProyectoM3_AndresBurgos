@@ -50,10 +50,24 @@ function router() {
 
   if (path === "/about") {
     app.innerHTML = `
-      <section>
+      <section class="about">
         <h2>About</h2>
-        <p>Proyecto Integrador M3.</p>
-        <p>Personaje: Geralt de Rivia.</p>
+
+        <img
+          src="/images/geralt.jpg"
+          alt="Geralt de Rivia"
+          class="about-image"
+        >
+
+        <p><strong>Proyecto Integrador M3</strong></p>
+
+        <p>
+          Esta aplicación permite conversar con Geralt de Rivia mediante
+          Google Gemini AI utilizando una arquitectura segura con Vercel
+          Serverless Functions.
+        </p>
+
+        <p><strong>Personaje:</strong> Geralt de Rivia.</p>
       </section>
     `;
     return;
@@ -78,6 +92,7 @@ function renderChat() {
       <div class="input-area">
         <input id="message-input" placeholder="Escribe..." />
         <button id="send-btn">Enviar</button>
+        <button id="clear-chat">🗑️</button>
       </div>
 
       <p id="typing"></p>
@@ -94,6 +109,9 @@ function renderChat() {
     ?.addEventListener("keypress", (e) => {
       if (e.key === "Enter") sendMessage();
     });
+
+  document.querySelector("#clear-chat")
+    ?.addEventListener("click", clearChat);
 }
 
 // enviar mensaje
@@ -142,6 +160,19 @@ async function sendMessage() {
   document.querySelector("#typing").textContent = "";
 }
 
+// limpiar chat
+function clearChat() {
+  messages.length = 0; // limpia el array
+
+  const container = document.querySelector("#messages");
+  if(container) container.innerHTML = "";
+
+  const input = document.querySelector("#message-input");
+  if(input) input.value = "";
+
+  document.querySelector("#typing").textContent = "";
+}
+
 // render mensajes
 function renderMessages() {
   const container = document.querySelector("#messages");
@@ -149,16 +180,45 @@ function renderMessages() {
   if (!container) return;
 
   container.innerHTML = messages
-    .map(msg => `
+    .map((msg, index) => `
       <div class="${msg.role}">
         <p>${msg.text}</p>
         <small>${msg.timestamp}</small>
+
+        ${
+          msg.role === "assistant"
+            ? `<button class="copy-btn" data-index="${index}">📋 Copiar</button>`
+            : ""
+        }
       </div>
     `)
     .join("");
 
   container.scrollTop = container.scrollHeight;
+
+  document.querySelectorAll(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const index = btn.dataset.index;
+
+      await navigator.clipboard.writeText(messages[index].text);
+
+      btn.textContent = "✅ Copiado";
+
+      setTimeout(() => {
+        btn.textContent = "📋 Copiar"
+        }, 1500);
+    });
+  });
 }
 
 // inicializar SPA (IMPORTANTE)
 document.addEventListener("DOMContentLoaded", router);
+
+const themeButton = document.getElementById("theme-toggle");
+
+themeButton.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+
+  themeButton.textContent =
+    document.body.classList.contains("light") ? "🌙" : "☀️";
+});

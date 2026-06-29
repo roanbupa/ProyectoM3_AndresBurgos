@@ -98,3 +98,137 @@ button {
     font-size: 16px;
   }
 }
+
+/* ===== MODO CLARO ===== */
+
+body.light {
+  background: #f5f5f5;
+  color: #111827;
+}
+
+body.light nav {
+  background: #e5e7eb;
+}
+
+body.light nav a {
+  color: #111827;
+}
+
+body.light .chat-container {
+  background: #ffffff;
+}
+
+body.light .input-area {
+  background: #e5e7eb;
+}
+
+body.light .user {
+  color: #2563eb;
+}
+
+body.light .assistant {
+  color: #d97706;
+}
+
+body.light input {
+  background: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+
+body.light button {
+  background: #2563eb;
+  color: white;
+  border: none;
+}
+
+#theme-toggle {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.2s ease;
+}
+
+#theme-toggle:hover {
+  transform: scale(1.15);
+}
+
+body.light #theme-toggle {
+  color: #111827;
+}
+
+/* ABOUT */
+
+.about {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.about-image {
+  width: 220px;
+  max-width: 90%;
+  border-radius: 12px;
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.about p {
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .about-image {
+    width: 300px;
+  }
+}
+
+/* Botón de copiado */
+.copy-btn {
+  all: unset;
+  cursor: pointer;
+  color: #38bdf8;
+  font-size: 12px;
+  margin-top: 5px;
+  display: inline-block;
+  transition: 0.2s;
+
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.copy-btn:hover {
+  color: #0ea5e9;
+  transform: scale(1.05);
+}
+
+/* modo claro */
+body.light .copy-btn {
+  color: #2563eb;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+body.light .copy-btn:hover {
+  color: #1d4ed8;
+}
+
+/* limpiar chat */
+#clear-chat {
+  all: unset;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+#clear-chat:hover {
+  transform: scale(1.2);
+}
