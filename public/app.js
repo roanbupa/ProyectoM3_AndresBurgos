@@ -1,12 +1,26 @@
 const app = document.querySelector("#app");
 
 // estado global del chat
-const messages = []; // guarda conversación
+const messages = [];
+
+// tema
+function initThemeToggle() {
+  const themeButton = document.getElementById("theme-toggle");
+
+  if (!themeButton) return;
+
+  themeButton.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+
+    themeButton.textContent =
+      document.body.classList.contains("light") ? "🌙" : "☀️";
+  });
+}
 
 // navegar sin recargar página
 function navigate(url) {
-  history.pushState({}, "", url); // cambia URL
-  router(); // renderiza vista
+  history.pushState({}, "", url);
+  router();
 }
 
 // click en links SPA
@@ -15,7 +29,7 @@ document.addEventListener("click", (e) => {
 
   if (link) {
     e.preventDefault();
-    navigate(link.getAttribute("href")); // navegación segura
+    navigate(link.getAttribute("href"));
   }
 });
 
@@ -26,7 +40,7 @@ window.addEventListener("popstate", router);
 function router() {
   const path = location.pathname;
 
-  app.innerHTML = ""; // limpia vista antes de renderizar
+  app.innerHTML = "";
 
   if (path === "/" || path === "/home") {
     app.innerHTML = `
@@ -40,11 +54,13 @@ function router() {
     document.querySelector("#go-chat")
       ?.addEventListener("click", () => navigate("/chat"));
 
+    initThemeToggle();
     return;
   }
 
   if (path === "/chat") {
     renderChat();
+    initThemeToggle();
     return;
   }
 
@@ -70,16 +86,19 @@ function router() {
         <p><strong>Personaje:</strong> Geralt de Rivia.</p>
       </section>
     `;
+
+    initThemeToggle();
     return;
   }
 
-  // fallback (404 SPA)
   app.innerHTML = `
     <section>
       <h2>404</h2>
       <p>Página no encontrada</p>
     </section>
   `;
+
+  initThemeToggle();
 }
 
 // render chat UI
@@ -162,13 +181,13 @@ async function sendMessage() {
 
 // limpiar chat
 function clearChat() {
-  messages.length = 0; // limpia el array
+  messages.length = 0;
 
   const container = document.querySelector("#messages");
-  if(container) container.innerHTML = "";
+  if (container) container.innerHTML = "";
 
   const input = document.querySelector("#message-input");
-  if(input) input.value = "";
+  if (input) input.value = "";
 
   document.querySelector("#typing").textContent = "";
 }
@@ -205,24 +224,11 @@ function renderMessages() {
       btn.textContent = "✅ Copiado";
 
       setTimeout(() => {
-        btn.textContent = "📋 Copiar"
-        }, 1500);
+        btn.textContent = "📋 Copiar";
+      }, 1500);
     });
   });
 }
 
-// inicializar SPA (IMPORTANTE)
+// inicializar SPA
 document.addEventListener("DOMContentLoaded", router);
-
-document.addEventListener("DOMContentLoaded", () => {
-  const themeButton = document.getElementById("#theme-toggle");
-
-  if(!themeButton) return;
-
-  themeButton.addEventListener("click", () => {
-    document.body.classList.toggle("light");
-
-    themeButton.textContent =
-      document.body.classList.contains("light") ? "🌙" : "☀️";
-  });
-});
