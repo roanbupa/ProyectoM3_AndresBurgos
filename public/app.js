@@ -214,7 +214,18 @@ function renderMessages() {
 // inicializar SPA (IMPORTANTE)
 document.addEventListener("DOMContentLoaded", router);
 
-const themeButton = document.getElementById("theme-toggle");
+document.addEventListener("DOMContentLoaded", () => {
+  const themeButton = document.getElementById("#theme-toggle");
+
+  if(!themeButton) return;
+
+  themeButton.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+
+    themeButton.textContent =
+      document.body.classList.contains("light") ? "🌙" : "☀️";
+  });
+});
 
 themeButton.addEventListener("click", () => {
   document.body.classList.toggle("light");
