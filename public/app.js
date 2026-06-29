@@ -9,10 +9,14 @@ function initThemeToggle() {
 
   if (!themeButton) return;
 
-  themeButton.addEventListener("click", () => {
+  // evitar duplicar eventos sin romper DOM
+  const newButton = themeButton.cloneNode(true);
+  themeButton.replaceWith(newButton);
+
+  newButton.addEventListener("click", () => {
     document.body.classList.toggle("light");
 
-    themeButton.textContent =
+    newButton.textContent =
       document.body.classList.contains("light") ? "🌙" : "☀️";
   });
 }
@@ -48,56 +52,48 @@ function router() {
         <h2>Bienvenido</h2>
         <p>Habla con Geralt de Rivia.</p>
         <button id="go-chat">Comenzar</button>
+        <button id="theme-toggle">☀️</button>
       </section>
     `;
 
     document.querySelector("#go-chat")
       ?.addEventListener("click", () => navigate("/chat"));
-
-    initThemeToggle();
-    return;
   }
 
-  if (path === "/chat") {
+  else if (path === "/chat") {
     renderChat();
-    initThemeToggle();
-    return;
+
+    // agregalo acá porque chat no lo tiene en HTML
+    document.querySelector(".chat-container")?.insertAdjacentHTML(
+      "afterbegin",
+      `<button id="theme-toggle">☀️</button>`
+    );
   }
 
-  if (path === "/about") {
+  else if (path === "/about") {
     app.innerHTML = `
       <section class="about">
+        <button id="theme-toggle">☀️</button>
+
         <h2>About</h2>
 
-        <img
-          src="/images/geralt.jpg"
-          alt="Geralt de Rivia"
-          class="about-image"
-        >
+        <img src="/images/geralt.jpg" class="about-image">
 
-        <p><strong>Proyecto Integrador M3</strong></p>
-
-        <p>
-          Esta aplicación permite conversar con Geralt de Rivia mediante
-          Google Gemini AI utilizando una arquitectura segura con Vercel
-          Serverless Functions.
-        </p>
-
-        <p><strong>Personaje:</strong> Geralt de Rivia.</p>
+        <p>Proyecto Integrador M3</p>
+        <p>Personaje: Geralt de Rivia.</p>
       </section>
     `;
-
-    initThemeToggle();
-    return;
   }
 
-  app.innerHTML = `
-    <section>
-      <h2>404</h2>
-      <p>Página no encontrada</p>
-    </section>
-  `;
-
+  else {
+    app.innerHTML = `
+      <section>
+        <button id="theme-toggle">☀️</button>
+        <h2>404</h2>
+      </section>
+    `;
+  }
+  
   initThemeToggle();
 }
 
