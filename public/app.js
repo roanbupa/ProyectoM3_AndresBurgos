@@ -52,7 +52,6 @@ function router() {
         <h2>Bienvenido</h2>
         <p>Habla con Geralt de Rivia.</p>
         <button id="go-chat">Comenzar</button>
-        <button id="theme-toggle">☀️</button>
       </section>
     `;
 
@@ -65,15 +64,13 @@ function router() {
 
     // agregalo acá porque chat no lo tiene en HTML
     document.querySelector(".chat-container")?.insertAdjacentHTML(
-      "afterbegin",
-      `<button id="theme-toggle">☀️</button>`
+      "afterbegin"
     );
   }
 
   else if (path === "/about") {
     app.innerHTML = `
       <section class="about">
-        <button id="theme-toggle">☀️</button>
 
         <h2>About</h2>
 
@@ -88,12 +85,11 @@ function router() {
   else {
     app.innerHTML = `
       <section>
-        <button id="theme-toggle">☀️</button>
         <h2>404</h2>
       </section>
     `;
   }
-  
+
   initThemeToggle();
 }
 
